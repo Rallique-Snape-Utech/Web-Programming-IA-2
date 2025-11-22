@@ -1,0 +1,141 @@
+<!-- 
+ Name: Rallique Snape
+ ID#: 2403799
+ Occurance: Friday, 12 - 1:50
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" type="text/css" href="/style.css">
+</head>
+
+<body class="main-body">
+    <header>
+        <div class="header-container">
+            <div class="header-title">
+                <h1>Snape's Engraving Services</h1>
+            </div>
+        </div>
+    </header>
+    <nav>
+        <div class="nav-links">
+            <a href="product.html">Product page</a>
+            <a href="cart.html">Cart</a>
+            <a href="aboutUs.html">About Us</a>
+            <a href="login.html">Logout</a>
+        </div>
+    </nav>
+    <main>
+        <div class="checkout-section">
+            <h2>Checkout</h2>
+
+            <h3>Order Summary</h3>
+            <table id="checkoutTable">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+
+            <form id="checkoutForm">
+                <div class="checkoutContainer">
+                    <div>
+                        <div class="checkoutInfo">
+                            <input type="text" id="fullName" name="fullName" required placeholder="Full Name">
+                        </div>
+                        <div class="checkoutInfo">
+                            <input type="tel" id="phone" required placeholder="Phone Number">
+                        </div>
+                        <div class="checkoutInfo">
+                            <input type="email" id="email" name="email" required placeholder="Email">
+                        </div>
+                        <div class="checkoutInfo">
+                            <textarea id="address" name="address" required placeholder="Address"></textarea>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p>Card Information</p>
+
+                        <div class="cardInfo">
+                            <input type="text" id="cardHolder" name="cardHolder" required placeholder="Cardholder Name">
+
+                            <div class="cardSecur">
+                                <input type="number" id="CardNum" name="CardNum" required placeholder="Card Number">
+
+                                <input type="number" id="CardCvv" name="CardCvv" required placeholder="CVV">
+                            </div>
+
+                            <input type="month" id="expiryDate" name="expiryDate" required placeholder="Expiry Date">
+
+                            <div class="placeOrderBtn">
+                                <h3 id="checkoutTotal">Total:$ 0.00</h3>
+                                <button type="submit">Place Order</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+    <aside class="invoice-box">
+        <h2>Invoice Summary</h2>
+        <p><strong>Subtotal:</strong> $<span id="invSubtotal">0.00</span></p>
+        <p><strong>Discount (15%): </strong> -%<span id="invDiscount">0.00</span></p>
+        <p><strong>Gct (15%):</strong> %<span id="invTax">0.00</span></p>
+        <hr>
+        <p><strong>Total Amount:</strong> $<span id="invTotal">0.00</span></p>
+    </aside>
+    <footer class="footer">
+        <p>&copy; 2025 Snape's Engraving Services. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const invoiceData = JSON.parse(localStorage.getItem("invoice")) || {};
+
+
+            document.getElementById("invSubtotal").textContent = invoiceData.subTotal || "0.00";
+            document.getElementById("invDiscount").textContent = invoiceData.discount || "0.00";
+            document.getElementById("invTax").textContent = invoiceData.tax || "0.00";
+            document.getElementById("invTotal").textContent = invoiceData.total || "0.00";
+            document.getElementById("checkoutTotal").textContent = invoiceData.total || "0.00";
+
+            const form = document.getElementById("checkoutForm");
+            form.addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                const fullName = document.getElementById("fullName").value.trim();
+                const phone = document.getElementById("phone").value.trim();
+                const email = document.getElementById("email").value.trim();
+                const address = document.getElementById("address").value.trim();
+
+                if (!fullName || !phone || !email || !address) {
+                    alert("Please fill in all required fields.");
+                    return;
+                }
+
+                localStorage.setItem("customerInfo", JSON.stringify({
+                    fullName, phone, email, address
+                }));
+
+                window.location.href = "receipt.html";
+            });
+        });
+    </script>
+
+</body>
+
+</html>

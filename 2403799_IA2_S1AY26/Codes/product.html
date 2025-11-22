@@ -1,0 +1,177 @@
+<!-- 
+ Name: Rallique Snape
+ ID#: 2403799
+ Occurance: Friday, 12 - 1:50
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Page</title>
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap');
+    </style>
+</head>
+
+<body class="main-body">
+    <header>
+        <div class="header-container">
+            <div class="header-title">
+                <h1>Snape's Engraving Services</h1>
+            </div>
+        </div>
+    </header>
+    <nav>
+        <div class="nav-links">
+            <a href="cart.html">Cart</a>
+            <a href="checkout.html">Check Out</a>
+            <a href="aboutUs.html">About Us</a>
+            <a href="login.html">Logout</a>
+        </div>
+    </nav>
+    <main>
+        <div class="welcome-section">
+            <h2>Welcome to the Product Page</h2>
+            <p>Explore our range of engraving services and products.</p>
+        </div>
+        <div class="product-section">
+            <h2>Products</h2>
+            <div class="products-display">
+                <ul class="product-list">
+                    <li>Keychains</li>
+                    <li><img src="../assets/keychain.jpg" alt="Keychain Image" width="200" height="300"> </li>
+                    <li>price: $1500.00</li>
+                    <li><button class="ppBtn" onclick="addToCart('Keychains', 1500, '../assets/keychain.jpg')">Add to
+                            cart</button></li>
+                </ul>
+                <ul class="product-list">
+                    <li>Stainless Steel Water Bottle</li>
+                    <li><img src="../assets/stwb.jpg" alt="Stainless Steel Water Bottle" width="200" height="300"> </li>
+                    <li>price: $2500.00</li>
+                    <li><button class="ppBtn"
+                            onclick="addToCart('Stainless Steel Water Bottle', 2500, '../assets/stwb.jpg')">Add to
+                            cart</button></li>
+                </ul>
+                <ul class="product-list">
+                    <li>Leather Phone Cases</li>
+                    <li><img src="../assets/lphonecase.jpg" alt="Leather Phone Cases" width="200" height="300"> </li>
+                    <li>price: $3000.00</li>
+                    <li><button class="ppBtn"
+                            onclick="addToCart('Leather Phone Case', 3000, '../assets/lphonecase.jpg')">Add to
+                            cart</button></li>
+                </ul>
+                <ul class="product-list">
+                    <li>Stainless Steel Wallets</li>
+                    <li><img src="../assets/ssw.jpg" alt="Leather Wallets" width="200" height="300"> </li>
+                    <li>price: $2500.00</li>
+                    <li><button class="ppBtn"
+                            onclick="addToCart('Stainless Steel Wallet', 2500, '../assets/ssw.jpg')">Add to
+                            cart</button></li>
+                </ul>
+            </div>
+        </div>
+        <div class="engraving-section">
+            <h2>Custom Engraving</h2>
+            <div>
+                <h4>Upload your chosen design or text file below</h4>
+                <input type="file" id="designUpload" name="designUpload" accept="image/*">
+                <p>$5000.00</p>
+                <button class="ppBtn" type="button" onclick="addCustomDesignToCart()">Add design to cart</button>
+            </div>
+            <div>
+                <h4>Upload an image of your own item for engraving</h4>
+                <input type="file" id="itemUpload" name="itemUpload" accept="image/*"> </br>
+                <button class="ppBtn" type="button" onclick="addOwnItemToCart()">Add item to cart</button>
+            </div>
+        </div>
+    </main>
+    <footer class="footer">
+        <p>&copy; 2025 Snape's Engraving Services. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        function saveCart() {
+            localStorage.setItem("cart", JSON.stringify(cart));
+        }
+
+        function addToCart(name, price, image) {
+            let item = cart.find(p => p.name === name);
+
+            if (item) {
+                item.quantity++;
+            } else {
+                cart.push({
+                    name: name,
+                    price: price,
+                    image: image,
+                    quantity: 1
+                });
+            }
+
+            saveCart();
+            alert(name + " added to cart!");
+        }
+
+        function addCustomDesignToCart() {
+            const fileInput = document.getElementById("designUpload");
+            if (!fileInput.files.length) {
+                alert("Please upload a design file first.");
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                const imageURL = event.target.result;
+
+                cart.push({
+                    name: "Custom Engraving Design",
+                    price: 5000,
+                    image: imageURL,
+                    quantity: 1
+                });
+
+                saveCart();
+                alert("Custom design added to cart!");
+            };
+
+            reader.readAsDataURL(file);
+        }
+
+        function addOwnItemToCart(){
+            const fileInput = document.getElementById("itemUpload");
+
+            if (!fileInput.files.length){
+                alert("Please upload an image of your own item.")
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(event) {
+                const imageURL = even.target.result;
+
+                cart.push({
+                    name: "Customer's Own Item",
+                    price: 5000,
+                    image: imageURL,
+                    quantity: 1
+                });
+
+                saveCart();
+                alert("Your item has been added to the cart!");
+            }
+
+            reader.readDataURL(file);
+        }
+    </script>
+</body>
+
+</html>
